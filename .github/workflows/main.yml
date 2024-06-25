@@ -20,12 +20,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: npm run build
-
-      - name: Deploy to GitHub Pages
+      - name: Deploy Development Server to GitHub Pages
         run: |
           git config --global user.email "actions@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
           npm install -g gh-pages
-          gh-pages -d build --add
+          npm start  # Start the development server
+
+      # Note: No need to add a step for deploying with gh-pages -d build --add
