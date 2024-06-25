@@ -1,24 +1,20 @@
-import data from '../data/data.json';
+import data from "../data/data.json";
 
 export interface Data {
-    id: number,
-    created_at: string,
-    formdata: {
-      questions: {
-        [key: string]: string,
-      },
-      common_questions: {
-        [key: string]: string,
-      }
-    },
-    slot: string,
-    email: string,
-    dep: string,
-    shortlisted: boolean,
-    contact: number,
-    name: string,
-    regno: string
-  }
+  id: number;
+  created_at: string;
+  formdata: {
+    questions: Record<string, string>; // Updated
+    common_questions: Record<string, string>; // Updated
+  };
+  slot: string;
+  email: string;
+  dep: string;
+  shortlisted: boolean;
+  contact: number;
+  name: string;
+  regno: string;
+}
 
 const allData: Data[] = data as Data[];
 

@@ -1,7 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
-import { Data } from "~/lib/data";
+import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@supabase/supabase-js";
+import type { Session } from "@supabase/supabase-js";
+import type { Data } from "~/lib/data";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 
@@ -10,44 +11,37 @@ const supabase = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3dnlyYmN2cnNic2F4anltcmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc4NTQwMDUsImV4cCI6MjAzMzQzMDAwNX0.PE2jnWmWTeNvwQQSDXrI3ERPkrIVYVIBoR5nqopZefY",
 );
 
-interface ReviewData extends Data {}
-
 export default function HomePage() {
-  const [reviewData, setReviewData] = useState<ReviewData[]>([]);
-  const [sortedData, setSortedData] = useState<ReviewData[]>([]);
-  const [json, setJson] = useState<string>("");
-  const [session, setSession] = useState<any | null>(null);
+  const [reviewData, setReviewData] = useState<Data[]>([]);
+  const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
-    // Check if there is an active session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const fetchSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       setSession(session);
-    });
+    };
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fetchSession();
 
-    // Listen for authentication state changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
 
-    // Cleanup subscription on unmount
     return () => subscription.unsubscribe();
   }, []);
 
   useEffect(() => {
     if (session) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       fetchData("cont");
     }
   }, [session]);
 
-  useEffect(() => {
-    if (reviewData.length > 0) {
-      saveData();
-    }
-  }, [reviewData]);
-
-  async function fetchData(dep: string) {
+  const fetchData = useCallback(async (dep: string) => {
     const { data, error } = await supabase
       .from("applicants")
       .select("*")
@@ -58,12 +52,11 @@ export default function HomePage() {
       return;
     }
     if (data) {
-      setReviewData(data as ReviewData[]);
-      console.log(data);
+      setReviewData(data as Data[]);
     }
-  }
+  }, []);
 
-  async function saveData() {
+  const saveData = useCallback(async () => {
     for (const item of reviewData) {
       const { error } = await supabase.from("applicants").upsert(item);
 
@@ -71,7 +64,13 @@ export default function HomePage() {
         console.error("Error saving data:", error);
       }
     }
-  }
+  }, [reviewData]);
+
+  useEffect(() => {
+    if (reviewData.length > 0) {
+      void saveData();
+    }
+  }, [reviewData, saveData]);
 
   const handleScoreChange = (id: number, shortlisted: boolean) => {
     setReviewData((prevData) =>
@@ -83,17 +82,8 @@ export default function HomePage() {
 
   const handleSave = () => {
     const sortedData = [...reviewData].sort();
-    const fullData = sortedData.map((item) => ({
-      ...item,
-      formdata: item.formdata,
-      slot: item.slot,
-      dep: item.dep,
-      regno: item.regno,
-      created_at: item.created_at,
-    }));
-
-    setJson(JSON.stringify(fullData, null, 2));
-    setSortedData(sortedData);
+    setReviewData(sortedData);
+    console.log(JSON.stringify(sortedData, null, 2));
   };
 
   const handleLogout = async () => {
@@ -101,7 +91,7 @@ export default function HomePage() {
     if (error) {
       console.error("Error logging out:", error.message);
     } else {
-      setSession(null); // Clear session state
+      setSession(null);
     }
   };
 
@@ -121,73 +111,55 @@ export default function HomePage() {
       <div className="flex flex-row space-x-2">
         <button
           className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => {
-            fetchData("cont");
-          }}
+          onClick={() => fetchData("cont")}
         >
           Content
         </button>
         <button
           className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => {
-            fetchData("management");
-          }}
+          onClick={() => fetchData("management")}
         >
           Management
         </button>
         <button
           className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => {
-            fetchData("meda_social");
-          }}
+          onClick={() => fetchData("media_social")}
         >
           Media - Social
         </button>
         <button
           className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => {
-            fetchData("media_des");
-          }}
+          onClick={() => fetchData("media_des")}
         >
           Media - Design
         </button>
         <button
           className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => {
-            fetchData("media_photo");
-          }}
+          onClick={() => fetchData("media_photo")}
         >
           Media - Photo
         </button>
         <button
           className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => {
-            fetchData("mms");
-          }}
+          onClick={() => fetchData("mms")}
         >
           MMS
         </button>
         <button
           className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => {
-            fetchData("tech_cyber");
-          }}
+          onClick={() => fetchData("tech_cyber")}
         >
-          Technical - Cyber Secutiry
+          Technical - Cyber Security
         </button>
         <button
           className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => {
-            fetchData("tech_linux");
-          }}
+          onClick={() => fetchData("tech_linux")}
         >
           Technical - Linux
         </button>
         <button
           className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => {
-            fetchData("tech_dev");
-          }}
+          onClick={() => fetchData("tech_dev")}
         >
           Technical - Dev
         </button>
