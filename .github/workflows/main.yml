@@ -15,16 +15,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '21'
+          node-version: '14'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Deploy Development Server to GitHub Pages
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
         run: |
           git config --global user.email "actions@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
           npm install -g gh-pages
-          npm start  # Start the development server
+          gh-pages -d build --add
 
-      # Note: No need to add a step for deploying with gh-pages -d build --add
