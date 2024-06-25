@@ -7,11 +7,8 @@ await import("./src/env.js");
 /** @type {import("next").NextConfig} */
 const config = {
   basePath: "/RecruitReview",
-<<<<<<< HEAD
   output: "export",
   reactStrictMode: true,
-=======
->>>>>>> 91970c8 (Fixed: media-social)
 };
 
 export default config;
