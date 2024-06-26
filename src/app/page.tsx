@@ -1,6 +1,6 @@
 /* eslint-disable */
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 import type { Session } from "@supabase/supabase-js";
 import type { Data } from "~/lib/data";
@@ -13,8 +13,8 @@ const supabase = createClient(
 );
 
 export default function HomePage() {
-  const [reviewData, setReviewData] = useState<Data[]>([]);
   const [session, setSession] = useState<Session | null>(null);
+  const [reviewData, setReviewData] = useState<Data[]>([]);
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -23,7 +23,6 @@ export default function HomePage() {
       } = await supabase.auth.getSession();
       setSession(session);
     };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchSession();
 
     const {
@@ -37,12 +36,11 @@ export default function HomePage() {
 
   useEffect(() => {
     if (session) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       fetchData("cont");
     }
   }, [session]);
 
-  const fetchData = useCallback(async (dep: string) => {
+  const fetchData = async (dep: string) => {
     const { data, error } = await supabase
       .from("applicants")
       .select("*")
@@ -55,36 +53,31 @@ export default function HomePage() {
     if (data) {
       setReviewData(data as Data[]);
     }
-  }, []);
-
-  const saveData = useCallback(async () => {
-    for (const item of reviewData) {
-      const { error } = await supabase.from("applicants").upsert(item);
-
-      if (error) {
-        console.error("Error saving data:", error);
-      }
-    }
-  }, [reviewData]);
-
-  useEffect(() => {
-    if (reviewData.length > 0) {
-      void saveData();
-    }
-  }, [reviewData, saveData]);
-
-  const handleScoreChange = (id: number, shortlisted: boolean) => {
-    setReviewData((prevData) =>
-      prevData.map((data) =>
-        data.id === id ? { ...data, shortlisted } : data,
-      ),
-    );
   };
 
-  const handleSave = () => {
-    const sortedData = [...reviewData].sort();
-    setReviewData(sortedData);
-    console.log(JSON.stringify(sortedData, null, 2));
+  const handleScoreChange = async (id: number, shortlisted: boolean) => {
+    try {
+      const { data, error } = await supabase
+        .from("applicants")
+        .update({ shortlisted })
+        .eq("id", id)
+        .select();
+
+      if (error) {
+        console.error("Error updating data:", error);
+        return;
+      }
+
+      console.log(data);
+      // Update the local state to reflect the changes in the UI
+      setReviewData((prevData) =>
+        prevData.map((data) =>
+          data.id === id ? { ...data, shortlisted } : data,
+        ),
+      );
+    } catch (error) {
+      console.error("Unexpected error:", error);
+    }
   };
 
   const handleLogout = async () => {
@@ -183,7 +176,8 @@ export default function HomePage() {
             <ul className="list-disc pl-4">
               {Object.keys(data.formdata.questions).map((key) => (
                 <li key={key} className="text-gray-600">
-                  {key}: {data.formdata.questions[key]}
+                  <p className="font-semibold text-black">{key}</p>
+                  {data.formdata.questions[key]}
                 </li>
               ))}
             </ul>
@@ -191,7 +185,8 @@ export default function HomePage() {
             <ul className="list-disc pl-4">
               {Object.keys(data.formdata.common_questions).map((key) => (
                 <li key={key} className="text-gray-600">
-                  {key}: {data.formdata.common_questions[key]}
+                  <p className="font-semibold text-black">{key}</p>
+                  {data.formdata.common_questions[key]}
                 </li>
               ))}
             </ul>
@@ -210,12 +205,6 @@ export default function HomePage() {
           </li>
         ))}
       </ul>
-      <button
-        className="mx-4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-        onClick={handleSave}
-      >
-        Save
-      </button>
     </div>
   );
 }
