@@ -123,9 +123,9 @@ export default function HomePage() {
         </button>
         <button
           className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => fetchData("mms")}
+          onClick={() => fetchData("mns")}
         >
-          MMS
+          MNS
         </button>
         <button
           className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
