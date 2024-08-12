@@ -42,7 +42,7 @@ export default function HomePage() {
 
   const fetchData = async (dep: string) => {
     const { data, error } = await supabase
-      .from("applicants_archive")
+      .from("applicants")
       .select("*")
       .eq("dep", dep);
 
@@ -58,7 +58,7 @@ export default function HomePage() {
   const handleScoreChange = async (id: number, shortlisted: boolean) => {
     try {
       const { data, error } = await supabase
-        .from("applicants_archive")
+        .from("applicants")
         .update({ shortlisted })
         .eq("id", id)
         .select();
