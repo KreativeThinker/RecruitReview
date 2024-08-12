@@ -117,21 +117,9 @@ export default function HomePage() {
         </button>
         <button
           className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => fetchData("meda_social")}
+          onClick={() => fetchData("media")}
         >
-          Media - Social
-        </button>
-        <button
-          className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => fetchData("media_des")}
-        >
-          Media - Design
-        </button>
-        <button
-          className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => fetchData("media_photo")}
-        >
-          Media - Photo
+          Media
         </button>
         <button
           className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
