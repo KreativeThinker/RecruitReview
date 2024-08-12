@@ -141,21 +141,9 @@ export default function HomePage() {
         </button>
         <button
           className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => fetchData("tech_cyber")}
+          onClick={() => fetchData("tech")}
         >
-          Technical - Cyber Security
-        </button>
-        <button
-          className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => fetchData("tech_linux")}
-        >
-          Technical - Linux
-        </button>
-        <button
-          className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-          onClick={() => fetchData("tech_dev")}
-        >
-          Technical - Dev
+          Technical
         </button>
       </div>
       <ul className="w-full divide-y divide-gray-200">
