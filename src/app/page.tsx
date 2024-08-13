@@ -90,45 +90,51 @@ export default function HomePage() {
   };
 
   if (!session) {
-    return <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />;
+    return (
+      <div className="flex h-full w-full justify-center align-middle">
+        <div className="w-[50%]">
+          <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="mx-auto w-full p-4 pt-6 md:p-6 lg:p-12">
       <h1 className="mb-4 text-3xl font-bold">Review Page</h1>
       <button
-        className="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
+        className="mb-4 rounded bg-red-600 px-4 py-2 font-bold text-white hover:bg-red-700"
         onClick={handleLogout}
       >
         Logout
       </button>
       <div className="flex flex-row space-x-2">
         <button
-          className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
+          className="rounded bg-green-600 px-4 py-2 font-bold text-white hover:bg-red-700"
           onClick={() => fetchData("cont")}
         >
           Content
         </button>
         <button
-          className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
+          className="rounded bg-green-600 px-4 py-2 font-bold text-white hover:bg-red-700"
           onClick={() => fetchData("management")}
         >
           Management
         </button>
         <button
-          className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
+          className="rounded bg-green-600 px-4 py-2 font-bold text-white hover:bg-red-700"
           onClick={() => fetchData("media")}
         >
           Media
         </button>
         <button
-          className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
+          className="rounded bg-green-600 px-4 py-2 font-bold text-white hover:bg-red-700"
           onClick={() => fetchData("mns")}
         >
           MNS
         </button>
         <button
-          className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-red-700"
+          className="rounded bg-green-600 px-4 py-2 font-bold text-white hover:bg-red-700"
           onClick={() => fetchData("tech")}
         >
           Technical
@@ -141,18 +147,18 @@ export default function HomePage() {
               <h2 className="text-lg font-bold">
                 {index + 1}. {data.name}
               </h2>
-              <p className="text-gray-600">{data.regno}</p>
+              <p className="text-gray-300">{data.regno}</p>
             </div>
-            <p className="text-gray-600">{data.email}</p>
-            <p className="text-gray-600">{data.dep}</p>
-            <p className="text-gray-600">{data.slot}</p>
-            <p className="text-gray-600">{data.shortlisted ? "Yes" : "No"}</p>
-            <p className="text-gray-600">{data.contact}</p>
+            <p className="text-gray-300">{data.email}</p>
+            <p className="text-gray-300">{data.dep}</p>
+            <p className="text-gray-300">{data.slot}</p>
+            <p className="text-gray-300">{data.shortlisted ? "Yes" : "No"}</p>
+            <p className="text-gray-300">{data.contact}</p>
             <h3 className="mt-4 text-lg font-bold">Form Data:</h3>
             <ul className="list-disc pl-4">
               {Object.keys(data.formdata.questions).map((key) => (
-                <li key={key} className="text-gray-600">
-                  <p className="font-semibold text-black">{key}</p>
+                <li key={key} className="text-gray-300">
+                  <p className="font-semibold text-white">{key}</p>
                   {data.formdata.questions[key]}
                 </li>
               ))}
@@ -160,8 +166,8 @@ export default function HomePage() {
             <h3 className="mt-4 text-lg font-bold">Common Questions:</h3>
             <ul className="list-disc pl-4">
               {Object.keys(data.formdata.common_questions).map((key) => (
-                <li key={key} className="text-gray-600">
-                  <p className="font-semibold text-black">{key}</p>
+                <li key={key} className="text-gray-300">
+                  <p className="font-semibold text-white">{key}</p>
                   {data.formdata.common_questions[key]}
                 </li>
               ))}
@@ -172,7 +178,9 @@ export default function HomePage() {
                 onChange={(e) =>
                   handleScoreChange(data.id, e.target.value === "true")
                 }
-                className="rounded border border-gray-300 py-1 pl-2 pr-2"
+                className={`rounded border p-2 text-gray-300 ${
+                  data.shortlisted ? "bg-green-600" : "bg-red-600"
+                }`}
               >
                 <option value="true">Yes</option>
                 <option value="false">No</option>
