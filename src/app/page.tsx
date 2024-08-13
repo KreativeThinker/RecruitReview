@@ -172,6 +172,7 @@ export default function HomePage() {
                 </li>
               ))}
             </ul>
+            {/*
             <div className="mt-4 flex justify-between">
               <select
                 value={data.shortlisted ? "true" : "false"}
@@ -186,6 +187,7 @@ export default function HomePage() {
                 <option value="false">No</option>
               </select>
             </div>
+            */}
           </li>
         ))}
       </ul>
