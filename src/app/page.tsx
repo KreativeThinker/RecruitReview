@@ -172,7 +172,6 @@ export default function HomePage() {
                 </li>
               ))}
             </ul>
-            //{" "}
             {/*
             <div className="mt-4 flex justify-between">
               <select
