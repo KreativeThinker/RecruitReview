@@ -44,7 +44,8 @@ export default function HomePage() {
     const { data, error } = await supabase
       .from("applicants")
       .select("*")
-      .eq("dep", dep);
+      .eq("dep", dep)
+      .eq("shortlisted", true);
 
     if (error) {
       console.error("Error fetching data:", error);
