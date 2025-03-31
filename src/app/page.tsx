@@ -12,7 +12,7 @@ const supabase = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3dnlyYmN2cnNic2F4anltcmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc4NTQwMDUsImV4cCI6MjAzMzQzMDAwNX0.PE2jnWmWTeNvwQQSDXrI3ERPkrIVYVIBoR5nqopZefY",
 );
 
-const dummyData: Data[] = data as Data[];
+const dummyData: Data[] = data as unknown as Data[];
 
 export default function HomePage() {
   const [session, setSession] = useState<Session | null>(null);

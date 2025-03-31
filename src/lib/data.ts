@@ -16,6 +16,6 @@ export interface Data {
   regno: string;
 }
 
-const allData: Data[] = data as Data[];
+const allData: Data[] = data as unknown as Data[];
 
 export { allData as data };
