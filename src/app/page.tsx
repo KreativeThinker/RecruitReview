@@ -4,17 +4,22 @@ import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 import type { Session } from "@supabase/supabase-js";
 import type { Data } from "~/lib/data";
-import { Auth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
+import data from "../data/data.json";
 
+// Then use it as needed
 const supabase = createClient(
   "https://twvyrbcvrsbsaxjymrcr.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3dnlyYmN2cnNic2F4anltcmNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc4NTQwMDUsImV4cCI6MjAzMzQzMDAwNX0.PE2jnWmWTeNvwQQSDXrI3ERPkrIVYVIBoR5nqopZefY",
 );
 
+const dummyData: Data[] = data as Data[];
+
 export default function HomePage() {
   const [session, setSession] = useState<Session | null>(null);
   const [reviewData, setReviewData] = useState<Data[]>([]);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -41,6 +46,12 @@ export default function HomePage() {
   }, [session]);
 
   const fetchData = async (dep: string) => {
+    // If using demo data, filter locally
+    if (session?.user?.email === "demo@gmail.com") {
+      const filteredData = dummyData.filter((item) => item.dep === dep);
+      setReviewData(filteredData);
+      return;
+    }
     const { data, error } = await supabase
       .from("applicants")
       .select("*")
@@ -56,29 +67,43 @@ export default function HomePage() {
     }
   };
 
-  const handleScoreChange = async (id: number, shortlisted: boolean) => {
-    try {
-      const { data, error } = await supabase
-        .from("applicants")
-        .update({ shortlisted })
-        .eq("id", id)
-        .select();
+  const handleLogin = async () => {
+    setLoading(true);
 
-      if (error) {
-        console.error("Error updating data:", error);
-        return;
-      }
+    if (email === "demo@gmail.com" && password === "demo1234") {
+      const mockSession = {
+        user: {
+          id: "demo-user",
+          email: "demo@gmail.com",
+        },
+        access_token: "demo-token",
+        expires_in: 3600,
+        expires_at: Date.now() + 3600 * 1000,
+      } as unknown as Session;
 
-      console.log(data);
-      // Update the local state to reflect the changes in the UI
-      setReviewData((prevData) =>
-        prevData.map((data) =>
-          data.id === id ? { ...data, shortlisted } : data,
-        ),
-      );
-    } catch (error) {
-      console.error("Unexpected error:", error);
+      setSession(mockSession);
+      setReviewData(dummyData); // Set dummy data directly
+      setLoading(false);
+      return;
     }
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) {
+      console.error("Login error:", error.message);
+    }
+    setLoading(false);
+  };
+
+  const handleSignup = async () => {
+    setLoading(true);
+    const { error } = await supabase.auth.signUp({ email, password });
+    if (error) {
+      console.error("Signup error:", error.message);
+    }
+    setLoading(false);
   };
 
   const handleLogout = async () => {
@@ -92,9 +117,34 @@ export default function HomePage() {
 
   if (!session) {
     return (
-      <div className="flex h-full w-full justify-center align-middle">
-        <div className="w-[50%]">
-          <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
+      <div className="flex h-screen w-screen items-center justify-center bg-[#2E2E2E]">
+        <div className="w-[50%] rounded-lg bg-[#3A3A3A] p-8 shadow-md">
+          <h2 className="mb-4 text-center text-2xl font-bold text-[#E2E2E2]">
+            Login
+          </h2>
+          <p>Demo Username: demo@gmail.com</p>
+          <p>Demo Password: demo1234</p>
+          <input
+            type="email"
+            placeholder="Email"
+            className="mb-4 w-full rounded border border-gray-600 bg-[#555] p-2 text-[#E2E2E2] placeholder-gray-400"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="mb-4 w-full rounded border border-gray-600 bg-[#555] p-2 text-[#E2E2E2] placeholder-gray-400"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            className="w-full rounded bg-blue-500 p-2 text-white"
+            onClick={handleLogin}
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
         </div>
       </div>
     );

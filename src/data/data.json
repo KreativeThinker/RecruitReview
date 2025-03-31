@@ -1,1 +1,212 @@
-[]
+[
+  {
+    "id": 1,
+    "created_at": "2023-10-15T09:30:00Z",
+    "formdata": {
+      "questions": {
+        "Why this department?": "I'm passionate about content creation and storytelling",
+        "Relevant experience": "Managed college magazine for 2 years"
+      },
+      "common_questions": {
+        "Strengths": "Creative writing, teamwork",
+        "Weaknesses": "Sometimes over-perfectionist"
+      }
+    },
+    "slot": "Morning",
+    "email": "alex.johnson@example.com",
+    "dep": "cont",
+    "shortlisted": true,
+    "contact": 9876543210,
+    "name": "Alex Johnson",
+    "regno": "RA2011003010001"
+  },
+  {
+    "id": 2,
+    "created_at": "2023-10-16T11:45:00Z",
+    "formdata": {
+      "questions": {
+        "Tech stack familiarity": "React, Node.js, MongoDB",
+        "Project experience": "Built campus event management system"
+      },
+      "common_questions": {
+        "Strengths": "Problem solving, quick learner",
+        "Weaknesses": "Public speaking"
+      }
+    },
+    "slot": "Afternoon",
+    "email": "sam.wilson@example.com",
+    "dep": "tech",
+    "shortlisted": true,
+    "contact": 8765432109,
+    "name": "Sam Wilson",
+    "regno": "RA2011003010002"
+  },
+  {
+    "id": 3,
+    "created_at": "2023-10-17T14:15:00Z",
+    "formdata": {
+      "questions": {
+        "Leadership experience": "Class representative for 2 years",
+        "Conflict resolution": "Mediated team disputes successfully"
+      },
+      "common_questions": {
+        "Strengths": "Decision making, delegation",
+        "Weaknesses": "Micromanaging tendencies"
+      }
+    },
+    "slot": "Morning",
+    "email": "priya.sharma@example.com",
+    "dep": "management",
+    "shortlisted": false,
+    "contact": 7654321098,
+    "name": "Priya Sharma",
+    "regno": "RA2011003010003"
+  },
+  {
+    "id": 4,
+    "created_at": "2023-10-18T10:00:00Z",
+    "formdata": {
+      "questions": {
+        "Camera equipment experience": "DSLR and mirrorless cameras",
+        "Editing software": "Adobe Premiere, After Effects"
+      },
+      "common_questions": {
+        "Strengths": "Visual storytelling, attention to detail",
+        "Weaknesses": "Working under tight deadlines"
+      }
+    },
+    "slot": "Evening",
+    "email": "jason.chen@example.com",
+    "dep": "media",
+    "shortlisted": true,
+    "contact": 6543210987,
+    "name": "Jason Chen",
+    "regno": "RA2011003010004"
+  },
+  {
+    "id": 5,
+    "created_at": "2023-10-19T13:30:00Z",
+    "formdata": {
+      "questions": {
+        "Math competition experience": "State-level math olympiad winner",
+        "Teaching experience": "Volunteer tutor at NGO"
+      },
+      "common_questions": {
+        "Strengths": "Analytical thinking, patience",
+        "Weaknesses": "Explaining complex concepts simply"
+      }
+    },
+    "slot": "Afternoon",
+    "email": "aravind.rao@example.com",
+    "dep": "mns",
+    "shortlisted": true,
+    "contact": 9432109876,
+    "name": "Aravind Rao",
+    "regno": "RA2011003010005"
+  },
+  {
+    "id": 6,
+    "created_at": "2023-10-20T16:45:00Z",
+    "formdata": {
+      "questions": {
+        "Social media management": "Ran successful Instagram page (10k+ followers)",
+        "Content strategy": "Planned monthly content calendars"
+      },
+      "common_questions": {
+        "Strengths": "Trend awareness, engagement metrics",
+        "Weaknesses": "Data analysis"
+      }
+    },
+    "slot": "Morning",
+    "email": "mia.garcia@example.com",
+    "dep": "cont",
+    "shortlisted": false,
+    "contact": 8321098765,
+    "name": "Mia Garcia",
+    "regno": "RA2011003010006"
+  },
+  {
+    "id": 7,
+    "created_at": "2023-10-21T09:15:00Z",
+    "formdata": {
+      "questions": {
+        "Database experience": "SQL and NoSQL databases",
+        "System design": "Designed scalable architecture for college project"
+      },
+      "common_questions": {
+        "Strengths": "Backend development, optimization",
+        "Weaknesses": "UI/UX design"
+      }
+    },
+    "slot": "Evening",
+    "email": "ryan.kim@example.com",
+    "dep": "tech",
+    "shortlisted": true,
+    "contact": 7210987654,
+    "name": "Ryan Kim",
+    "regno": "RA2011003010007"
+  },
+  {
+    "id": 8,
+    "created_at": "2023-10-22T12:30:00Z",
+    "formdata": {
+      "questions": {
+        "Event planning": "Organized college fest with 500+ attendees",
+        "Budget management": "Handled ₹2L budget for department event"
+      },
+      "common_questions": {
+        "Strengths": "Organization, multitasking",
+        "Weaknesses": "Saying no to extra work"
+      }
+    },
+    "slot": "Afternoon",
+    "email": "neha.patel@example.com",
+    "dep": "management",
+    "shortlisted": true,
+    "contact": 6109876543,
+    "name": "Neha Patel",
+    "regno": "RA2011003010008"
+  },
+  {
+    "id": 9,
+    "created_at": "2023-10-23T15:00:00Z",
+    "formdata": {
+      "questions": {
+        "Photography portfolio": "Published in 3 college magazines",
+        "Video production": "Created documentary for college"
+      },
+      "common_questions": {
+        "Strengths": "Creative vision, technical skills",
+        "Weaknesses": "Working in large teams"
+      }
+    },
+    "slot": "Morning",
+    "email": "david.miller@example.com",
+    "dep": "media",
+    "shortlisted": false,
+    "contact": 5098765432,
+    "name": "David Miller",
+    "regno": "RA2011003010009"
+  },
+  {
+    "id": 10,
+    "created_at": "2023-10-24T17:30:00Z",
+    "formdata": {
+      "questions": {
+        "Research experience": "Published paper in college journal",
+        "Lab skills": "Advanced microscopy techniques"
+      },
+      "common_questions": {
+        "Strengths": "Scientific method, precision",
+        "Weaknesses": "Public presentations"
+      }
+    },
+    "slot": "Evening",
+    "email": "ananya.verma@example.com",
+    "dep": "mns",
+    "shortlisted": true,
+    "contact": 4987654321,
+    "name": "Ananya Verma",
+    "regno": "RA2011003010010"
+  }
+]
