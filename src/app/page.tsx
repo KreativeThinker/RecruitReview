@@ -118,7 +118,7 @@ export default function HomePage() {
   if (!session) {
     return (
       <div className="flex h-screen w-screen items-center justify-center bg-[#2E2E2E]">
-        <div className="w-[50%] rounded-lg bg-[#3A3A3A] p-8 shadow-md">
+        <div className="m-8 rounded-lg bg-[#3A3A3A] p-8 shadow-md md:w-[50%]">
           <h2 className="mb-4 text-center text-2xl font-bold text-[#E2E2E2]">
             Login
           </h2>
@@ -159,7 +159,7 @@ export default function HomePage() {
       >
         Logout
       </button>
-      <div className="flex flex-row space-x-2">
+      <div className="flex gap-2 md:flex-row">
         <button
           className="rounded bg-green-600 px-4 py-2 font-bold text-white hover:bg-red-700"
           onClick={() => fetchData("cont")}
